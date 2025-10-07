@@ -1,0 +1,201 @@
+
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ข่าวหุ้นสหรัฐฯ (ภาษาไทย) — เวอร์ชัน 2.0</title>
+<style>
+  :root{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans","Helvetica Neue",Arial; color:#0b1220;}
+  body{margin:0;padding:0;background:#f6f8fa;}
+  header{background:#0b5cff;color:#fff;padding:16px 14px;display:flex;align-items:center;gap:12px}
+  header h1{font-size:16px;margin:0}
+  header p{margin:0;font-size:12px;opacity:0.9}
+  .container{padding:12px;max-width:980px;margin:0 auto}
+  .grid{display:grid;grid-template-columns:1fr;gap:10px}
+  @media(min-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
+  .card{background:#fff;border-radius:10px;padding:12px;box-shadow:0 6px 18px rgba(11,17,32,0.06)}
+  .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .section-title h2{font-size:14px;margin:0}
+  .meta{font-size:12px;color:#556;opacity:0.95}
+  ul.feed{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;max-height:320px;overflow:auto;padding-right:6px}
+  li.item{border-left:3px solid #e6eefc;padding:8px 10px;background:linear-gradient(180deg,#fff,#fbfdff);border-radius:6px}
+  a.title{font-weight:600;color:#0b2f66;text-decoration:none}
+  .time{font-size:12px;color:#6a7686}
+  .source{font-size:12px;color:#2b6aff}
+  .controls{display:flex;gap:8px;flex-wrap:wrap}
+  button{background:#eef6ff;border:1px solid rgba(11,92,255,0.08);padding:8px 10px;border-radius:8px;font-size:13px;cursor:pointer}
+  .small{font-size:12px;padding:6px 8px}
+  .footer{font-size:13px;color:#4b5563;margin-top:10px;text-align:center}
+  .loading{font-size:13px;color:#3b4a66}
+  .widget-container{display:flex;flex-direction:column;gap:8px;overflow-x:auto;}
+  iframe{border:0;border-radius:8px;width:100%;height:300px;}
+</style>
+</head>
+<body>
+<header>
+  <div style="width:44px;height:44px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;color:#0b5cff;font-weight:700">US</div>
+  <div>
+    <h1>ข่าวหุ้นสหรัฐฯ (ภาษาไทย) — เวอร์ชัน 2.0</h1>
+    <p>อัปเดตอัตโนมัติ + ราคาสด & กราฟ Dow / S&P500 / Nasdaq / ทองคำ / ETF</p>
+  </div>
+</header>
+
+<div class="container">
+  <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+    <div class="controls">
+      <button id="refreshBtn">รีเฟรชข่าวตอนนี้</button>
+      <button id="autoToggle" class="small">ปิดอัปเดตอัตโนมัติ</button>
+      <button id="openSources" class="small">เปิดต้นฉบับทั้งหมด</button>
+    </div>
+  </div>
+
+  <!-- Section: ราคาสด & กราฟ -->
+  <div class="card">
+    <div class="section-title"><h2>ราคาสด & กราฟ</h2><div class="meta">Dow / S&P500 / Nasdaq / ทองคำ / ETF (SPY, QQQ)</div></div>
+    <div class="widget-container">
+      <!-- Dow Jones -->
+      <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_1&symbol=INDEX:DJI&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=Light" title="Dow Jones"></iframe>
+      <!-- S&P500 -->
+      <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_2&symbol=INDEX:SPX&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=Light" title="S&P500"></iframe>
+      <!-- Nasdaq -->
+      <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_3&symbol=INDEX:IXIC&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=Light" title="Nasdaq"></iframe>
+      <!-- ทองคำ -->
+      <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_4&symbol=TVC:GOLD&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=Light" title="Gold"></iframe>
+      <!-- ETF SPY -->
+      <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_5&symbol=NYSE:SPY&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=Light" title="ETF SPY"></iframe>
+      <!-- ETF QQQ -->
+      <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_6&symbol=NASDAQ:QQQ&interval=D&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=Light" title="ETF QQQ"></iframe>
+    </div>
+  </div>
+
+  <!-- Section: ข่าวหุ้น / ทองคำ / ETF -->
+  <div class="grid">
+    <div class="card" id="usStocksCard">
+      <div class="section-title"><h2>หุ้นสหรัฐ (ข่าวด่วน)</h2><div class="meta">TNN / Bangkokbiz / InfoQuest / Investing</div></div>
+      <div class="loading" id="usLoading">กำลังโหลดข่าว…</div>
+      <ul class="feed" id="usFeed"></ul>
+    </div>
+
+    <div class="card" id="goldCard">
+      <div class="section-title"><h2>ทองคำ & สินค้าโภคภัณฑ์</h2><div class="meta">ราคาทอง ราคาน้ำมัน และข่าวที่เกี่ยวข้อง</div></div>
+      <div class="loading" id="goldLoading">กำลังโหลดข่าว…</div>
+      <ul class="feed" id="goldFeed"></ul>
+    </div>
+
+    <div class="card" id="etfCard" style="grid-column:1 / -1">
+      <div class="section-title"><h2>ETF สหรัฐ</h2><div class="meta">ข่าว กองทุน และบทวิเคราะห์เกี่ยวกับ ETF สหรัฐ</div></div>
+      <div class="loading" id="etfLoading">กำลังโหลดข่าว…</div>
+      <ul class="feed" id="etfFeed"></ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    สร้างโดย ChatGPT — ไฟล์นี้ดึง RSS ผ่านบริการ rss2json (ฟรี) และฝัง TradingView widget สำหรับกราฟ & ราคาสด  
+    หากบางแหล่งไม่แสดง ให้คลิก "เปิดต้นฉบับทั้งหมด" เพื่อไปยังเว็บไซต์โดยตรง  
+    สามารถอัปโหลดบน GitHub Pages → https://USERNAME.github.io
+  </div>
+</div>
+
+<script>
+// ---------- Configuration: RSS feed URLs ----------
+const feeds = {
+  us: [
+    {name:'TNN Wealth', url:'https://www.tnnthailand.com/wealth/?outputType=RSS'},
+    {name:'BangkokBiz (หุ้นโลก)', url:'https://www.bangkokbiznews.com/rss/stock.xml'},
+    {name:'InfoQuest', url:'https://www.infoquest.co.th/rss'},
+    {name:'Investing (Markets Global) - Thai', url:'https://th.investing.com/rss/news.rss'}
+  ],
+  gold: [
+    {name:'BangkokBiz - Commodities', url:'https://www.bangkokbiznews.com/rss/commodities.xml'},
+    {name:'Investing - Commodities (English)', url:'https://www.investing.com/rss/commodities.rss'}
+  ],
+  etf: [
+    {name:'Finnomena Morning Brief', url:'https://feed.podbean.com/finnomena/feed.xml'},
+    {name:'Investing - ETFs', url:'https://www.investing.com/rss/etfs.rss'}
+  ]
+};
+
+const apiBase = 'https://api.rss2json.com/v1/api.json?rss_url=';
+const maxItems = 8;
+function timeAgo(pubDateStr){
+  try{
+    const d = new Date(pubDateStr);
+    const diff = (Date.now() - d.getTime())/1000;
+    if(isNaN(diff)) return '';
+    if(diff < 60) return Math.round(diff) + ' วินาทีที่แล้ว';
+    if(diff < 3600) return Math.round(diff/60) + ' นาทีที่แล้ว';
+    if(diff < 86400) return Math.round(diff/3600) + ' ชั่วโมงที่แล้ว';
+    return Math.round(diff/86400) + ' วันก่อน';
+  }catch(e){return '';}
+}
+async function fetchFeed(rssUrl){
+  const encoded = encodeURIComponent(rssUrl);
+  const req = apiBase + encoded;
+  try{
+    const res = await fetch(req);
+    if(!res.ok) throw new Error('fetch fail');
+    const j = await res.json();
+    return j;
+  }catch(e){console.warn('feed failed', rssUrl, e); return null;}
+}
+async function loadSection(sectionId, list){
+  const container = document.getElementById(sectionId + 'Feed');
+  const loading = document.getElementById(sectionId + 'Loading');
+  container.innerHTML = '';
+  loading.style.display = 'block';
+  const items = [];
+  await Promise.all(list.map(async f => {
+    const data = await fetchFeed(f.url);
+    if(data && data.items){
+      data.items.slice(0, maxItems).forEach(it=>{
+        items.push({title:it.title, link:it.link, source:f.name, pubDate:it.pubDate || it.date, content: it.description || ''});
+      });
+    }
+  }));
+  items.sort((a,b)=> new Date(b.pubDate) - new Date(a.pubDate));
+  const renderCount = Math.min(items.length, maxItems);
+  if(renderCount === 0) container.innerHTML = '<li class="item">ไม่พบข่าวล่าสุดจากแหล่งที่เลือก</li>';
+  for(let i=0;i<renderCount;i++){
+    const it = items[i];
+    const li = document.createElement('li');
+    li.className = 'item';
+    li.innerHTML = `<a class="title" href="${it.link}" target="_blank" rel="noopener">${escapeHtml(it.title)}</a>
+      <div class="time">${timeAgo(it.pubDate)} • <span class="source">${escapeHtml(it.source)}</span></div>`;
+    container.appendChild(li);
+  }
+  loading.style.display = 'none';
+}
+function escapeHtml(s){ if(!s) return ''; return s.replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+async function refreshAll(){
+  document.getElementById('refreshBtn').disabled = true;
+  try{
+    await Promise.all([
+      loadSection('us', feeds.us),
+      loadSection('gold', feeds.gold),
+      loadSection('etf', feeds.etf)
+    ]);
+  }finally{
+    document.getElementById('refreshBtn').disabled = false;
+  }
+}
+let auto = false;
+let autoTimer = null;
+document.getElementById('refreshBtn').addEventListener('click', ()=> refreshAll());
+document.getElementById('openSources').addEventListener('click', ()=>{
+  const urls = [].concat(feeds.us, feeds.gold, feeds.etf).map(f=>f.url.split('?')[0]);
+  urls.forEach(u=> window.open(u,'_blank'));
+});
+document.getElementById('autoToggle').addEventListener('click', function(){
+  auto = !auto;
+  this.textContent = auto ? 'เปิดอัปเดตอัตโนมัติ' : 'ปิดอัปเดตอัตโนมัติ';
+  if(auto){
+    autoTimer = setInterval(()=> refreshAll(), 1000 * 60 * 2);
+  }else{
+    clearInterval(autoTimer);
+  }
+});
+refreshAll();
+</script>
+</body>
+</html>
